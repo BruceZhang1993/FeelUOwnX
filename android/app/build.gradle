@@ -48,10 +48,9 @@ android {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86"
         }
         python {
-            buildPython "py ~3.8"
+            buildPython "/usr/bin/python"
             pip {
-                options "--extra-index-url", "https://pypi.douban.com/simple"
-                install "feeluown[battery]"
+                install "feeluown>=3.4b1[battery]"
             }
         }
     }
@@ -59,23 +58,6 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.debug
-        }
-    }
-
-    flavorDimensions "abi"
-
-    productFlavors {
-        arm {
-            dimension "abi"
-            ndk { abiFilters "armeabi-v7a" }
-        }
-        arm64 {
-            dimension "abi"
-            ndk { abiFilters "arm64-v8a" }
-        }
-        x86 {
-            dimension "abi"
-            ndk { abiFilters "x86" }
         }
     }
 }
@@ -87,6 +69,6 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
