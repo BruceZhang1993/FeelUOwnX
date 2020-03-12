@@ -50,7 +50,9 @@ android {
         python {
             buildPython "/usr/bin/python"
             pip {
-                install "feeluown>=3.4b1[battery]"
+                options "-i", "https://pypi.douban.com/simple/"
+                options "--extra-index-url", "https://chaquo.com/pypi-7.0"
+                install "git+https://github.com/BruceZhang1993/FeelUOwn.git#egg=feeluown[battery]"
             }
         }
     }

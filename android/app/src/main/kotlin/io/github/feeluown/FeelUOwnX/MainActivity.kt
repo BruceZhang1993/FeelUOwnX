@@ -7,6 +7,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 import com.chaquo.python.Python
 import com.chaquo.python.android.AndroidPlatform
+import com.chaquo.python.PyObject
 
 class MainActivity: FlutterActivity() {
     private val pyRuntime = "io.github.feeluown/chaquopy"
@@ -14,23 +15,33 @@ class MainActivity: FlutterActivity() {
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, pyRuntime).setMethodCallHandler {
-            call, _ ->
-            if (call.method == "startPythonInstance") {
-                startPythonInstance()
-            }
+            call, result ->
             if (call.method == "startFuoDaemon") {
-                startFuoDaemon()
+                val stdout = startFuoDaemon()
+                result.success(stdout)
             }
         }
     }
 
-    private fun startPythonInstance() {
-        if (!Python.isStarted()) {
-            Python.start(AndroidPlatform(this));
-        }
+    private fun startFuoDaemon(): String {
+        val thread = FuoDaemonThread(this)
+        thread.start()
+        return "done"
     }
+}
 
-    private fun startFuoDaemon() {
-        Python.getInstance().getModule("feeluown.__main__").callAttr("main", "-nw", "-d");
+class FuoDaemonThread: Thread {
+    private var context: MainActivity
+
+    constructor(context: MainActivity) {
+        this.context = context
+    }
+    public override fun run() {
+        if (!Python.isStarted()) {
+            Python.start(AndroidPlatform(this.context))
+        }
+        Python.getInstance().getModule("sys").get("argv")?.asList()?.add(PyObject.fromJava("-nw"))
+        Python.getInstance().getModule("sys").get("argv")?.asList()?.add(PyObject.fromJava("-d"))
+        Python.getInstance().getModule("feeluown.__main__").callAttr("main")
     }
 }

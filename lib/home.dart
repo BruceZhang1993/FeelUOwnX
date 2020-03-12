@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:FeelUOwnX/services/fuo_runner.dart';
+import 'services/fuo_runner.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/getflutter.dart';
 
@@ -54,11 +54,7 @@ class HomePageState extends State<HomePage> {
                     ListTile(
                       title: Text('Start Daemon'),
                       onTap: () {
-                        FuoRunner.runDaemon().catchError((err) {
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text('Something wrong happened when starting FeelUOwn: ' + err.toString()),
-                          ));
-                        });
+                        FuoRunner.runDaemon();
                         Navigator.pop(context);
                       },
                     ),
