@@ -1,5 +1,6 @@
-package io.github.feeluown.FeelUOwnX
+package io.github.feeluown.feeluownx
 
+import android.content.Intent
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -30,18 +31,13 @@ class MainActivity: FlutterActivity() {
     }
 }
 
-class FuoDaemonThread: Thread {
-    private var context: MainActivity
-
-    constructor(context: MainActivity) {
-        this.context = context
-    }
-    public override fun run() {
+class FuoDaemonThread(private var context: MainActivity) : Thread() {
+    override fun run() {
         if (!Python.isStarted()) {
             Python.start(AndroidPlatform(this.context))
         }
-        Python.getInstance().getModule("sys").get("argv")?.asList()?.add(PyObject.fromJava("-nw"))
-        Python.getInstance().getModule("sys").get("argv")?.asList()?.add(PyObject.fromJava("-d"))
+        Python.getInstance().getModule("sys")["argv"]?.asList()?.add(PyObject.fromJava("-nw"))
+        Python.getInstance().getModule("sys")["argv"]?.asList()?.add(PyObject.fromJava("-d"))
         Python.getInstance().getModule("feeluown.__main__").callAttr("main")
     }
 }

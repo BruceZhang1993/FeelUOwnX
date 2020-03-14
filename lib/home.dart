@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'services/fuo_runner.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/getflutter.dart';
+import 'pages/pages.dart' as pages;
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,11 +17,7 @@ class HomePageState extends State<HomePage> {
       appBar: GFAppBar(
         title: Text(
           'FeelUOwn X',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w500,
-            fontSize: 18.0,
-          ),
+          style: Theme.of(context).textTheme.headline1,
         ),
       ),
       drawer: GFDrawer(
@@ -30,14 +25,9 @@ class HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             GFDrawerHeader(
-              margin: EdgeInsets.symmetric(vertical: 10.0),
               child: Text(
                 'FeelUOwn X',
-                style: TextStyle(
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                ),
+                style: Theme.of(context).textTheme.headline2,
               ),
             ),
             Builder(
@@ -54,7 +44,7 @@ class HomePageState extends State<HomePage> {
                     ListTile(
                       title: Text('Start Daemon'),
                       onTap: () {
-                        FuoRunner.runDaemon();
+                        FuoRunner.runDaemon(context);
                         Navigator.pop(context);
                       },
                     ),
@@ -65,7 +55,7 @@ class HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Container(),
+      body: pages.HomePage(),
     );
   }
 }
