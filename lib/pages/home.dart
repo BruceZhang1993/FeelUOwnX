@@ -47,13 +47,23 @@ class HomePageState extends State<HomePage> {
                   padding: EdgeInsets.only(bottom: 2.0),
                   child: GestureDetector(
                     child: GFListTile(
-                      titleText: searchedSongs[index].title,
-                      subtitleText: searchedSongs[index].artist,
+                      title: Text(
+                        searchedSongs[index].title,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      subTitle: Text(
+                        searchedSongs[index].artist,
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
                       icon: Icon(Icons.music_note),
                     ),
-                    onTap: () {
-                      showSnackBar(context,
-                        'Title: ${searchedSongs[index].title} Artist: ${searchedSongs[index].artist} FuoUri: ${searchedSongs[index].fuoUri}');
+                    onTap: () async {
+                      models.SongDetail detail =  await FuoRunner.getSongDetail(context, searchedSongs[index]);
+                      if (detail == null || detail.uri == null || detail.uri.isEmpty) {
+                        showSnackBar(context, 'Cannot fetch song uri.');
+                        return;
+                      }
+                      PlaybackService.startPlay(detail.uri).catchError(() => showSnackBar(context, 'Something wrong.'));
                     },
                   ),
                 );

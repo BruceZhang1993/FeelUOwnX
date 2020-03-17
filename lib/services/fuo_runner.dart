@@ -25,12 +25,21 @@ class FuoRunner {
 
   static Future<List<models.Song>> searchSongs(BuildContext context, String query) async {
     FuoClient client = await initConnection(context);
-    String response = await client.send(['search', query]).catchError((err) {
+    String response = await client.send(['search', '\'' + query + '\'']).catchError((err) {
       print('Something wrong happened.');
     });
     print(response.split(RegExp(r'\r?\n')));
     return response.split(RegExp(r'\r?\n'))
       .where((String element) => element.startsWith('fuo://'))
       .map((String element) => models.Song.fromString(element)).toList();
+  }
+
+  static Future<models.SongDetail> getSongDetail(BuildContext context, models.Song song) async {
+    FuoClient client = await initConnection(context);
+    String response = await client.send(['show', song.fuoUri]).catchError((err) {
+      print('Something wrong happened.');
+    });
+    print(response.split(RegExp(r'\r?\n')));
+    return models.SongDetail.fromString(response);
   }
 }

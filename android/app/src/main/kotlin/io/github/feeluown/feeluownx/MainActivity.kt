@@ -14,7 +14,6 @@ class MainActivity: FlutterActivity() {
     private val pyRuntime = "io.github.feeluown/chaquopy"
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
-        GeneratedPluginRegistrant.registerWith(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, pyRuntime).setMethodCallHandler {
             call, result ->
             if (call.method == "startFuoDaemon") {
@@ -22,12 +21,19 @@ class MainActivity: FlutterActivity() {
                 result.success(stdout)
             }
         }
+        GeneratedPluginRegistrant.registerWith(flutterEngine)
     }
 
     private fun startFuoDaemon(): String {
-        val thread = FuoDaemonThread(this)
-        thread.start()
-        return "done"
+        try {
+            val thread = FuoDaemonThread(this)
+            thread.start()
+            return "done"
+        }
+        catch(e: Exception) {
+            print(e);
+        }
+        return "";
     }
 }
 
