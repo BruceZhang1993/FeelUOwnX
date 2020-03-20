@@ -28,12 +28,12 @@ class FuoApp extends StatelessWidget {
           ),
           bodyText1: TextStyle(
             color: Colors.black87,
-            fontSize: 14.0,
+            fontSize: 16.0,
             fontWeight: FontWeight.normal,
           ),
           bodyText2: TextStyle(
             color: Colors.black87,
-            fontSize: 10.0,
+            fontSize: 12.0,
             fontWeight: FontWeight.w200,
           ),
         ),
@@ -56,12 +56,12 @@ class FuoApp extends StatelessWidget {
           ),
           bodyText1: TextStyle(
             color: Colors.white70,
-            fontSize: 14.0,
+            fontSize: 16.0,
             fontWeight: FontWeight.normal,
           ),
           bodyText2: TextStyle(
             color: Colors.white70,
-            fontSize: 10.0,
+            fontSize: 12.0,
             fontWeight: FontWeight.w200,
           ),
         ),

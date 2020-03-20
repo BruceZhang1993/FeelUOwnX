@@ -41,7 +41,7 @@ class FuoClient {
           break;
         }
         await Future.delayed(Duration(seconds: 1));
-        counter--;
+        counter++;
       }
       return messageQueue.first;
     } else {

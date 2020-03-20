@@ -12,6 +12,8 @@ class Song {
   }
 
   /// Convert string to song model
+  /// @param [line] The line of string that represents a song
+  /// @return The song model
   static Song fromString(String line) {
     List<String> data = line.split('#').map((String element) => element.trim()).toList();
     List<String> titleStrings = data[1].split(' - ');

@@ -29,10 +29,12 @@ class HomePageState extends State<HomePage> {
               decoration: InputDecoration(
                 hintText: 'Search',
                 border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
                   borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                  gapPadding: 1.0,
                 ),
               ),
-              autofocus: true,
+              autofocus: false,
               style: Theme.of(context).textTheme.bodyText1,
               onSubmitted: (String value) {
                 searchSongs(context, value.trim());
