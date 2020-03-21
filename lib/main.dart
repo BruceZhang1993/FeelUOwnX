@@ -22,7 +22,9 @@ class FuoAppState extends State<FuoApp> {
   void initState() {
     super.initState();
     StreamingSharedPreferences.instance.then((prefs) {
-      settings = AppSettings(prefs);
+      setState(() {
+        settings = AppSettings(prefs);
+      });
     });
   }
 

@@ -8,5 +8,20 @@ showSnackBar(BuildContext context, String content, {int seconds = 3}) {
   ));
 }
 
-getTextDialog(BuildContext context) async
-{}
+Future<String> getTextDialog(BuildContext context, String title, String hint) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return SimpleDialog(
+        title: Text(
+          title, style: Theme.of(context).textTheme.bodyText1,
+        ),
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(hintText: hint),
+          ),
+        ],
+      );
+    },
+  );
+}

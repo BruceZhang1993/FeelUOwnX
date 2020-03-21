@@ -63,7 +63,7 @@ class HomePageState extends State<HomePage> {
                         showSnackBar(context, 'Cannot fetch song uri.');
                         return;
                       }
-                      PlaybackService.startPlay(detail.uri).catchError(() => showSnackBar(context, 'Something wrong.'));
+                      PlaybackService.startPlay(detail.uri).catchError((_) => showSnackBar(context, 'Something wrong.'));
                     },
                   ),
                 );

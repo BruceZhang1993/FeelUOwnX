@@ -38,7 +38,7 @@ class SettingPageState extends State<SettingPage> {
               'The IP of FeelUOwn daemon.',
               style: Theme.of(context).textTheme.bodyText2,
             ),
-            icon: settings != null ? Text(settings.daemonIp.getValue()) : '-',
+            icon: settings != null ? Text(settings.daemonIp.getValue()) : Text('-'),
           ),
           GFListTile(
             title: Text(
@@ -63,7 +63,7 @@ class SettingPageState extends State<SettingPage> {
               ByteData data = await DefaultAssetBundle.of(context).load('assets/demo/demo.mp3');
               await File('$docDir/demo.mp3').writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
               }
-              PlaybackService.startPlay(File('$docDir/demo.mp3').path, isLocal: true);
+              PlaybackService.startPlay(File('$docDir/demo.mp3').path, isLocal: true).catchError((_) => showSnackBar(context, 'Something wrong.'));
             },
             child: GFListTile(
               title: Text(
