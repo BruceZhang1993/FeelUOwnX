@@ -15,6 +15,7 @@ class PlaybackService {
 
   static Future<PlayerState> startPlay(String uri, {bool isLocal: false}) async {
     int result;
+    await _audioPlayer.stop();
     if (isLocal) {
       result = await _audioPlayer.play(uri, isLocal: true);
     } else {

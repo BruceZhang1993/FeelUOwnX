@@ -23,6 +23,7 @@ dependencies:
   getflutter: ^1.0.9
   flutter_cache_manager: ^1.1.3
   path_provider: ^1.6.5
+  streaming_shared_preferences: ^1.0.1
 
   flute_music_player:
     git:

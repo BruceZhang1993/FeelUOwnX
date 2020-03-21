@@ -2,9 +2,7 @@ part of pages;
 
 class HomePage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return HomePageState();
-  }
+  State<StatefulWidget> createState() => HomePageState();
 }
 
 class HomePageState extends State<HomePage> {

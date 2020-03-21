@@ -21,10 +21,12 @@ class HomePageState extends State<HomePage> {
   Duration duration;
   Duration position;
   PlayerState playerState;
+  StatefulWidget _currentPage;
 
   @override
   void initState() {
     super.initState();
+    _currentPage = pages.HomePage();
     initAudioPlayer();
   }
 
@@ -74,8 +76,14 @@ class HomePageState extends State<HomePage> {
                     ListTile(
                       title: Text('Home'),
                       onTap: () {
+                        if (_currentPage is! pages.HomePage) {
+                          setState(() {
+                            _currentPage = pages.HomePage();
+                          });
+                        }
                         Navigator.pop(context);
                       },
+                      selected: _currentPage is pages.HomePage,
                     ),
                     ListTile(
                       title: Text('Start Daemon'),
@@ -85,15 +93,16 @@ class HomePageState extends State<HomePage> {
                       },
                     ),
                     ListTile(
-                      title: Text('Audio Test'),
+                      title: Text('Setting'),
                       onTap: () async {
-                        String docDir = (await getApplicationDocumentsDirectory()).path;
-                        if (!(await File('$docDir/demo.mp3').exists())) {
-                          ByteData data = await DefaultAssetBundle.of(context).load('assets/demo/demo.mp3');
-                          await File('$docDir/demo.mp3').writeAsBytes(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+                        if (_currentPage is! pages.SettingPage) {
+                          setState(() {
+                            _currentPage = pages.SettingPage();
+                          });
                         }
-                        PlaybackService.startPlay(File('$docDir/demo.mp3').path, isLocal: true);
+                        Navigator.pop(context);
                       },
+                      selected: _currentPage is pages.SettingPage,
                     ),
                   ],
                 );
@@ -102,7 +111,7 @@ class HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: pages.HomePage(),
+      body: _currentPage,
     );
   }
 }

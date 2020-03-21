@@ -1,72 +1,49 @@
+import 'setting.dart';
 import 'package:flutter/material.dart';
+import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import 'home.dart';
+import 'themes.dart' as themes;
 
 void main() {
   runApp(FuoApp());
 }
 
-class FuoApp extends StatelessWidget {
+class FuoApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => FuoAppState();
+}
+
+class FuoAppState extends State<FuoApp> {
+  String lightTheme = 'light';
+  String darkTheme = 'black';
+  AppSettings settings;
+
+  @override
+  void initState() {
+    super.initState();
+    StreamingSharedPreferences.instance.then((prefs) {
+      settings = AppSettings(prefs);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FeelUOwn X',
-      theme: ThemeData(
-        backgroundColor: Colors.white,
-        brightness: Brightness.light,
-        primaryColor: Color.fromRGBO(234, 237, 221, 1.0),
-        accentColor: Colors.amberAccent,
-        textTheme: TextTheme(
-          headline1: TextStyle(
-            color: Colors.black87,
-            fontSize: 18.0,
-            fontWeight: FontWeight.w500,
-          ),
-          headline2: TextStyle(
-            color: Colors.black87,
-            fontSize: 22.0,
-            fontWeight: FontWeight.w400,
-          ),
-          bodyText1: TextStyle(
-            color: Colors.black87,
-            fontSize: 16.0,
-            fontWeight: FontWeight.normal,
-          ),
-          bodyText2: TextStyle(
-            color: Colors.black87,
-            fontSize: 12.0,
-            fontWeight: FontWeight.w200,
-          ),
-        ),
+    if (settings == null) {
+      return MaterialApp(
+        title: 'FeelUOwn X',
+        theme: themes.themes[lightTheme],
+        darkTheme: themes.themes[darkTheme],
+        home: HomePage(),
+      );
+    }
+    return PreferenceBuilder<bool>(
+      preference: settings.forceDark,
+      builder: (context, forceDark) => MaterialApp(
+        title: 'FeelUOwn X',
+        theme: themes.themes[forceDark ? darkTheme : lightTheme],
+        darkTheme: themes.themes[darkTheme],
+        home: HomePage(),
       ),
-      darkTheme: ThemeData(
-        backgroundColor: Colors.black,
-        brightness: Brightness.dark,
-        primaryColor: Colors.blueGrey,
-        accentColor: Colors.deepPurpleAccent,
-        textTheme: TextTheme(
-          headline1: TextStyle(
-            color: Colors.white70,
-            fontSize: 18.0,
-            fontWeight: FontWeight.w500,
-          ),
-          headline2: TextStyle(
-            color: Colors.white70,
-            fontSize: 22.0,
-            fontWeight: FontWeight.w400,
-          ),
-          bodyText1: TextStyle(
-            color: Colors.white70,
-            fontSize: 16.0,
-            fontWeight: FontWeight.normal,
-          ),
-          bodyText2: TextStyle(
-            color: Colors.white70,
-            fontSize: 12.0,
-            fontWeight: FontWeight.w200,
-          ),
-        ),
-      ),
-      home: HomePage(),
     );
   }
 }

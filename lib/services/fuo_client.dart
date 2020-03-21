@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:FeelUOwnX/setting.dart';
 import 'package:flutter/material.dart';
+import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 import '../helpers.dart';
 
@@ -16,8 +18,10 @@ class FuoClient {
   FuoClient._internal();
 
   Future<FuoClient> connect() async {
+    StreamingSharedPreferences prefs = await StreamingSharedPreferences.instance;
+    String ipAddress = AppSettings(prefs).daemonIp.getValue();
     if (_socket == null) {
-      _socket = await Socket.connect('127.0.0.1', 23333);
+      _socket = await Socket.connect(ipAddress, 23333);
       _socket.listen(handle);
       await _socket.flush();
       showSnackBar(_context, 'Connected to FeelUOwn daemon.');

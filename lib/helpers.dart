@@ -7,3 +7,6 @@ showSnackBar(BuildContext context, String content, {int seconds = 3}) {
     duration: Duration(seconds: seconds),
   ));
 }
+
+getTextDialog(BuildContext context) async
+{}
